@@ -1,0 +1,207 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "default-bitmap-font": {
+      "file": "default-font.fnt"
+    }
+  },
+  "com.badlogic.gdx.graphics.Color": {
+    "red-color": {
+      "r": 1,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "green-color": {
+      "r": 0,
+      "g": 1,
+      "b": 0,
+      "a": 1
+    },
+    "blue-color": {
+      "r": 0,
+      "g": 0,
+      "b": 1,
+      "a": 1
+    },
+    "white-color": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 1
+    },
+    "black-color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "gray-color": {
+      "r": 0.50,
+      "g": 0.50,
+      "b": 0.50,
+      "a": 1
+    },
+    "light-gray-color": {
+      "r": 0.75,
+      "g": 0.75,
+      "b": 0.75,
+      "a": 1
+    },
+    "dark-gray-color": {
+      "r": 0.25,
+      "g": 0.25,
+      "b": 0.25,
+      "a": 1
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+    "shadow-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.60
+      }
+    },
+    "red-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 1,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      }
+    },
+    "green-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 0,
+        "g": 1,
+        "b": 0,
+        "a": 1
+      }
+    },
+    "blue-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 1,
+        "a": 1
+      }
+    },
+    "white-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      }
+    },
+    "black-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      }
+    },
+    "gray-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 0.50,
+        "g": 0.50,
+        "b": 0.50,
+        "a": 1
+      }
+    },
+    "light-gray-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 0.75,
+        "g": 0.75,
+        "b": 0.75,
+        "a": 1
+      }
+    },
+    "dark-gray-tinted-drawable": {
+      "name": "drawable",
+      "color": {
+        "r": 0.25,
+        "g": 0.25,
+        "b": 0.25,
+        "a": 1
+      }
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+    "default": {
+      "down": "dark-gray-button",
+      "over": "gray-button",
+      "up": "light-gray-button"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "default": {
+      "down": "dark-gray-button",
+      "over": "gray-button",
+      "up": "light-gray-button",
+      "font": "default-bitmap-font",
+      "fontColor": "white-color",
+      "disabledFontColor": "light-gray-color"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+    "default": {
+      "titleFont": "default-bitmap-font",
+      "titleFontColor": "white-color",
+      "background": "default-window",
+      "stageBackground": "shadow-tinted-drawable"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    "default": {
+      "font": "default-bitmap-font",
+      "fontColor": "white-color"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+    "default": {
+      "selection": "light-gray-tinted-drawable",
+      "background": "gray-tinted-drawable",
+      "font": "default-bitmap-font",
+      "fontColor": "white-color",
+      "cursor": "white-tinted-drawable"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+    "default": {
+      "vScroll": "dark-gray-tinted-drawable",
+      "vScrollKnob": "light-gray-tinted-drawable",
+      "hScroll": "dark-gray-tinted-drawable",
+      "hScrollKnob": "light-gray-tinted-drawable",
+      "background": "gray-tinted-drawable"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
+    "default": {
+      "fontColorUnselected": "white-color",
+      "selection": "light-gray-tinted-drawable",
+      "fontColorSelected": "white-color",
+      "font": "default-bitmap-font"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
+    "default": {
+      "label": {
+        "font": "default-bitmap-font",
+        "fontColor": "white-color"
+      },
+      "background": "gray-tinted-drawable",
+      "wrapWidth": 400
+    }
+  }
+}
