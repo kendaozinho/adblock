@@ -19,7 +19,7 @@ import com.kendao.libgdx.storage.CustomPreferences;
 import java.util.HashMap;
 
 public class MyGdxGame extends ApplicationAdapter implements CustomGameListener {
-  private HashMap<Class, Object> instances = new HashMap(); // for Dependency Injection
+  private final HashMap<Class, Object> instances = new HashMap(); // for Dependency Injection
 
   private final String deviceId; // is UNIQUE
   private final String secretKey; // key generated based on the application's keystore

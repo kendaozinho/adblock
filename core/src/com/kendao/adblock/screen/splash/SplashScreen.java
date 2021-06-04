@@ -1,9 +1,7 @@
 package com.kendao.adblock.screen.splash;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.kendao.adblock.MyGdxGame;
 import com.kendao.adblock.enumerable.Preferences;

@@ -20,6 +20,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kendao.adblock.listener.AdsListener;
+
 import java.security.MessageDigest;
 
 public class AndroidLauncher extends AndroidApplication implements AdsListener {
@@ -72,10 +73,10 @@ public class AndroidLauncher extends AndroidApplication implements AdsListener {
     // Create libgdx view
     View gameView = super.initializeForView(
         new MyGdxGame(
-          deviceId,
-          secretKey,
-          this,
-          new PurchaseManagerGoogleBilling(this)
+            deviceId,
+            secretKey,
+            this,
+            new PurchaseManagerGoogleBilling(this)
         ),
         new AndroidApplicationConfiguration()
     );
@@ -124,10 +125,10 @@ public class AndroidLauncher extends AndroidApplication implements AdsListener {
 
     // Add AdMob into layout
     layout.addView(
-      this.adView,
-      new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT) {{
-        super.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-      }}
+        this.adView,
+        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT) {{
+          super.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        }}
     );
 
     // Hook it all up

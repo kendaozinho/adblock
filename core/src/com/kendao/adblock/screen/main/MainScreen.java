@@ -8,10 +8,10 @@ import com.kendao.adblock.MyGdxGame;
 import com.kendao.adblock.enumerable.Assets;
 import com.kendao.adblock.enumerable.Purchases;
 import com.kendao.libgdx.payment.base.CustomPurchaseManager;
-import com.kendao.libgdx.screen.base.CustomBaseScreen;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomImageButton;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomTextButton;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomToast;
+import com.kendao.libgdx.screen.base.CustomBaseScreen;
 
 public class MainScreen extends CustomBaseScreen {
   private CustomImageButton image;
