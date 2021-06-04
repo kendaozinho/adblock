@@ -3,11 +3,6 @@ package com.kendao.adblock;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.pay.OfferType;
-import com.badlogic.gdx.pay.PurchaseManager;
-import com.kendao.adblock.enumerable.Purchases;
-import com.kendao.adblock.listener.AdsListener;
-import com.kendao.adblock.payment.CustomPurchaseObserver;
 import com.kendao.adblock.screen.splash.SplashScreen;
 import com.kendao.libgdx.assets.CustomAssetManager;
 import com.kendao.libgdx.listener.CustomGameListener;
@@ -23,21 +18,10 @@ public class MyGdxGame extends ApplicationAdapter implements CustomGameListener 
 
   private final String deviceId; // is UNIQUE
   private final String secretKey; // key generated based on the application's keystore
-  private final AdsListener adsListener;
-  private final PurchaseManager purchaseManager;
 
   public MyGdxGame(String deviceId, String secretKey) {
     this.deviceId = deviceId;
     this.secretKey = secretKey;
-    this.adsListener = null;
-    this.purchaseManager = null;
-  }
-
-  public MyGdxGame(String deviceId, String secretKey, AdsListener adsListener, PurchaseManager purchaseManager) {
-    this.deviceId = deviceId;
-    this.secretKey = secretKey;
-    this.adsListener = adsListener;
-    this.purchaseManager = purchaseManager;
   }
 
   public static MyGdxGame getInstance() {
@@ -51,19 +35,6 @@ public class MyGdxGame extends ApplicationAdapter implements CustomGameListener 
 
     // Disable hardware back button
     Gdx.input.setCatchBackKey(true);
-
-    // Load Custom Purchase Manager
-    this.instances.put(
-        CustomPurchaseManager.class,
-        new CustomPurchaseManager(this.purchaseManager) {{
-          super.install(
-              new CustomPurchaseObserver(),
-              new HashMap<OfferType, String>() {{
-                super.put(OfferType.ENTITLEMENT, Purchases.PURCHASE_ID.getValue());
-              }}
-          );
-        }}
-    );
 
     // Load asset manager
     this.instances.put(CustomAssetManager.class, new CustomAssetManager());
@@ -126,17 +97,5 @@ public class MyGdxGame extends ApplicationAdapter implements CustomGameListener 
   public <T> T getInstanceOf(Class<T> clazz) {
     Object instance = this.instances.get(clazz);
     return (instance == null ? null : (T) instance);
-  }
-
-  public void showAds() {
-    if (this.adsListener != null) {
-      this.adsListener.showAds();
-    }
-  }
-
-  public void hideAds() {
-    if (this.adsListener != null) {
-      this.adsListener.hideAds();
-    }
   }
 }
