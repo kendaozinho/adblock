@@ -3,10 +3,10 @@ package com.kendao.adblock;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.kendao.adblock.listener.VpnListener;
 import com.kendao.adblock.screen.splash.SplashScreen;
 import com.kendao.libgdx.assets.CustomAssetManager;
 import com.kendao.libgdx.listener.CustomGameListener;
-import com.kendao.libgdx.payment.base.CustomPurchaseManager;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomSkin;
 import com.kendao.libgdx.screen.base.CustomScreenManager;
 import com.kendao.libgdx.storage.CustomPreferences;
@@ -15,13 +15,10 @@ import java.util.HashMap;
 
 public class MyGdxGame extends ApplicationAdapter implements CustomGameListener {
   private final HashMap<Class, Object> instances = new HashMap(); // for Dependency Injection
+  private final VpnListener vpnListener;
 
-  private final String deviceId; // is UNIQUE
-  private final String secretKey; // key generated based on the application's keystore
-
-  public MyGdxGame(String deviceId, String secretKey) {
-    this.deviceId = deviceId;
-    this.secretKey = secretKey;
+  public MyGdxGame(VpnListener vpnListener) {
+    this.vpnListener = vpnListener;
   }
 
   public static MyGdxGame getInstance() {
@@ -80,7 +77,6 @@ public class MyGdxGame extends ApplicationAdapter implements CustomGameListener 
   @Override
   public void dispose() {
     CustomScreenManager.getInstance().dispose();
-    CustomPurchaseManager.getInstance().dispose();
   }
 
   @Override
@@ -97,5 +93,9 @@ public class MyGdxGame extends ApplicationAdapter implements CustomGameListener 
   public <T> T getInstanceOf(Class<T> clazz) {
     Object instance = this.instances.get(clazz);
     return (instance == null ? null : (T) instance);
+  }
+
+  public VpnListener getVpnListener() {
+    return this.vpnListener;
   }
 }

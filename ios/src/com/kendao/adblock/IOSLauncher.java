@@ -15,6 +15,6 @@ public class IOSLauncher extends IOSApplication.Delegate {
   @Override
   protected IOSApplication createApplication() {
     IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-    return new IOSApplication(new MyGdxGame("ios", "iRXcZRTSAd8+a4nCieRlNwOjBlU="), config);
+    return new IOSApplication(new MyGdxGame(null), config);
   }
 }

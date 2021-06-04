@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Align;
 import com.kendao.adblock.MyGdxGame;
-import com.kendao.adblock.enumerable.Preferences;
 import com.kendao.adblock.screen.main.MainScreen;
 import com.kendao.libgdx.assets.CustomAssetManager;
-import com.kendao.libgdx.payment.base.CustomPurchaseManager;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomLabel;
 import com.kendao.libgdx.screen.base.CustomBaseScreen;
 import com.kendao.libgdx.screen.base.CustomScreenManager;
@@ -30,13 +28,7 @@ public class SplashScreen extends CustomBaseScreen {
             Actions.delay(0.5f),
             Actions.fadeIn(1f),
             Actions.run(
-                () -> {
-                  CustomAssetManager.getInstance().loadAllAssets();
-
-                  if (!Preferences.PURCHASES_RESTORED.getPropertyAsBoolean() && CustomPurchaseManager.getInstance().installed()) {
-                    CustomPurchaseManager.getInstance().purchaseRestore();
-                  }
-                }
+                () -> CustomAssetManager.getInstance().loadAllAssets()
             ),
             Actions.delay(1f), // Waiting to load the assets
             Actions.fadeOut(1f),

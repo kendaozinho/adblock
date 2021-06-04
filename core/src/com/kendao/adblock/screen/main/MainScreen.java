@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kendao.adblock.MyGdxGame;
 import com.kendao.adblock.enumerable.Assets;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomImageButton;
+import com.kendao.libgdx.scenes.scene2d.ui.CustomTextButton;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomToast;
 import com.kendao.libgdx.screen.base.CustomBaseScreen;
 
@@ -33,7 +34,29 @@ public class MainScreen extends CustomBaseScreen {
         (MyGdxGame.getInstance().getFullHeight() / 2) - (this.image.getHeight() / 2)
     );
 
+    CustomTextButton connectVpn = new CustomTextButton(
+        "CONNECT VPN", 25, MyGdxGame.getInstance().getFullHeight() - 75, 150, 50,
+        new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            MyGdxGame.getInstance().getVpnListener().connectVpn();
+          }
+        }
+    );
+
+    CustomTextButton disconnectVpn = new CustomTextButton(
+        "DISCONNECT VPN", 25, MyGdxGame.getInstance().getFullHeight() - 150, 150, 50,
+        new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            MyGdxGame.getInstance().getVpnListener().disconnectVpn();
+          }
+        }
+    );
+
     super.getMainStage().addActor(this.image);
+    super.getMainStage().addActor(connectVpn);
+    super.getMainStage().addActor(disconnectVpn);
   }
 
   @Override

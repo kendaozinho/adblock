@@ -1,35 +1,55 @@
 package com.kendao.adblock;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+import android.content.Intent;
+import android.net.VpnService;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Base64;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.kendao.adblock.listener.VpnListener;
+import com.kendao.adblock.vpn.CustomVpnService;
 
-import java.security.MessageDigest;
-
-public class AndroidLauncher extends AndroidApplication {
+public class AndroidLauncher extends AndroidApplication implements VpnListener {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    String deviceId = Settings.Secure.getString(super.getContentResolver(), Settings.Secure.ANDROID_ID);
+    super.initialize(new MyGdxGame(this), new AndroidApplicationConfiguration());
+  }
 
-    String secretKey = "unknown";
-    try {
-      PackageInfo packageInfo =
-          getPackageManager().getPackageInfo(BuildConfig.APPLICATION_ID, PackageManager.GET_SIGNATURES);
-      for (Signature signature : packageInfo.signatures) {
-        MessageDigest sha = MessageDigest.getInstance("SHA-1");
-        secretKey = Base64.encodeToString(sha.digest(signature.toByteArray()), Base64.DEFAULT).replace("\n", "");
-      }
-    } catch (Throwable t) {
-      throw new RuntimeException("Unable to get signatures: " + t);
+  @Override
+  public void connectVpn() {
+    Intent intent = VpnService.prepare(this);
+    if (intent != null) {
+      startActivityForResult(intent, 0);
+    } else {
+      onActivityResult(0, RESULT_OK, null);
     }
+  }
 
-    super.initialize(new MyGdxGame(deviceId, secretKey), new AndroidApplicationConfiguration());
+  @Override
+  public void disconnectVpn() {
+    super.startService(this.getServiceIntent().setAction(CustomVpnService.ACTION_DISCONNECT));
+  }
+
+  @Override
+  protected void onActivityResult(int request, int result, Intent data) {
+    if (result == RESULT_OK) {
+      startService(getServiceIntent().setAction(CustomVpnService.ACTION_CONNECT));
+    }
+  }
+
+  private Intent getServiceIntent() {
+    return new Intent(this, CustomVpnService.class);
+  }
+
+  public interface Prefs {
+    String NAME = "connection";
+    String SERVER_ADDRESS = "server.address";
+    String SERVER_PORT = "server.port";
+    String SHARED_SECRET = "shared.secret";
+    String PROXY_HOSTNAME = "proxyhost";
+    String PROXY_PORT = "proxyport";
+    String ALLOW = "allow";
+    String PACKAGES = "packages";
   }
 }
