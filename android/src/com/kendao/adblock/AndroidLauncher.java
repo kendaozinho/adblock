@@ -1,5 +1,6 @@
 package com.kendao.adblock;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,6 +16,8 @@ import com.kendao.adblock.server.ServerService;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 
 public class AndroidLauncher extends AndroidApplication implements ServerListener {
   @SuppressLint("HandlerLeak")
@@ -30,8 +33,6 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
   // private EditText port;
   // private static TextView mLog;
   // private static ScrollView mScroll;
-
-  private String documentRoot;
 
   private ServerService mBoundService;
 
@@ -69,47 +70,52 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
     // mLog = (TextView) findViewById(R.id.log);
     // mScroll = (ScrollView) findViewById(R.id.ScrollView01);
 
-    documentRoot = Environment.getExternalStorageDirectory().getAbsolutePath() + "/androidwebserver/";
+    String documentRoot = getDocumentRoot();
 
-    if (documentRoot != null) {
-      try {
-        if (!(new File(documentRoot)).exists()) {
-          (new File(documentRoot)).mkdir();
-          Log.d("Webserver", "Created " + documentRoot);
-          BufferedWriter bout = new BufferedWriter(new FileWriter(documentRoot + "index.html"));
-          bout.write("<html><head><title>Android WebServer</title>");
-          bout.write("</head>");
-          bout.write("<body>Willkommen auf dem Android Webserver.");
-          bout.write("<br><br>Die HTML-Dateien liegen in " + documentRoot + ", der Sourcecode dieser App auf ");
-          bout.write("<a href=\"https://github.com/bodeme/androidwebserver\">Github</a>");
-          bout.write("</body></html>");
-          bout.flush();
-          bout.close();
-          bout = new BufferedWriter(new FileWriter(documentRoot + "403.html"));
-          bout.write("<html><head><title>Error 403</title>");
-          bout.write("</head>");
-          bout.write("<body>403 - Forbidden</body></html>");
-          bout.flush();
-          bout.close();
-          bout = new BufferedWriter(new FileWriter(documentRoot + "404.html"));
-          bout.write("<html><head><title>Error 404</title>");
-          bout.write("</head>");
-          bout.write("<body>404 - File not found</body></html>");
-          bout.flush();
-          bout.close();
-          Log.d("Webserver", "Created html files");
-        }
-      } catch (Exception e) {
-        Log.v("ERROR", e.getMessage());
+    try {
+      Log.d("WebServer", "Created " + documentRoot);
+
+      File folder = new File(documentRoot);
+      if (!folder.exists()) {
+        folder.mkdirs();
       }
 
-      log("");
-      log("Please mail suggestions to fef9560@b0d3.de");
-      log("");
-      log("Document-Root: " + documentRoot);
-    } else {
-      log("Error: Document-Root could not be found.");
+      File indexFile = new File(documentRoot + "index.html");
+      if (!indexFile.exists()) {
+        File temp = File.createTempFile("index", ".html", folder);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+        writer.write("<html>");
+        writer.write("<head><title>Android WebServer</title></head>");
+        writer.write("<body>KENDAO Android WebServer.</body>");
+        writer.write("</html>");
+        writer.close();
+      }
+
+      File forbiddenFile = new File(documentRoot + "403.html");
+      if (!forbiddenFile.exists()) {
+        File temp = File.createTempFile("403", ".html", folder);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+        writer.write("<html><head><title>Error 403</title></head><body>403 - Forbidden</body></html>");
+        writer.close();
+      }
+
+      File notFoundFile = new File(documentRoot + "404.html");
+      if (!notFoundFile.exists()) {
+        File temp = File.createTempFile("404", ".html", folder);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+        writer.write("<html><head><title>Error 404</title></head><body>404 - Not Found</body></html>");
+        writer.close();
+      }
+
+      Log.d("WebServer", "Created html files");
+    } catch (Exception e) {
+      Log.v("WebServer", e.toString());
     }
+
+    log("Document-Root: " + documentRoot);
 
     /* mToggleButton.setOnClickListener(new OnClickListener() {
       public void onClick(View arg0) {
@@ -132,7 +138,7 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
       // Toast.makeText(AndroidLauncher.this, "Service not connected", Toast.LENGTH_SHORT).show();
       System.out.println("SERVICE NOT CONNECTED!");
     } else {
-      mBoundService.startServer(mHandler, documentRoot, port);
+      mBoundService.startServer(mHandler, getDocumentRoot(), port);
     }
   }
 
@@ -161,5 +167,9 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
   @Override
   protected void onResume() {
     super.onResume();
+  }
+
+  private String getDocumentRoot() {
+    return Environment.getExternalStorageDirectory().getAbsolutePath() + "/webserver/";
   }
 }

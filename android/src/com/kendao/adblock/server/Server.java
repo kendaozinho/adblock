@@ -76,7 +76,7 @@ public class Server extends Thread {
         clientList.add(client);
       } catch (IOException e) {
         send(e.getMessage());
-        Log.e("Webserver", e.getMessage());
+        Log.e("WebServer", e.getMessage());
       }
     }
   }
@@ -87,7 +87,7 @@ public class Server extends Thread {
       listener.close();
     } catch (IOException e) {
       send(e.getMessage());
-      Log.e("Webserver", e.getMessage());
+      Log.e("WebServer", e.getMessage());
     }
   }
 

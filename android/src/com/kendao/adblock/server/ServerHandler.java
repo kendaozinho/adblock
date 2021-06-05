@@ -107,7 +107,7 @@ class ServerHandler extends Thread {
 
     String text = "Found tasks:<ul>";
     if (c != null) {
-      Log.d("Webserver", "Cursor is not null");
+      Log.d("WebServer", "Cursor is not null");
       int nameCol = c.getColumnIndex("name");
       int projNameCol = c.getColumnIndex("project_name");
 
@@ -116,7 +116,7 @@ class ServerHandler extends Thread {
       }
       c.close();
     } else {
-      Log.d("Webserver", "Cursor is null");
+      Log.d("WebServer", "Cursor is null");
     }
     text = text + "</ul>";
     send(text);
@@ -151,7 +151,7 @@ class ServerHandler extends Thread {
 
     // Search for files in docroot
     document = documentRoot + document;
-    Log.d("Webserver", "Got " + document);
+    Log.d("WebServer", "Got " + document);
     document = document.replaceAll("[/]+", "/");
 
     if (document.charAt(document.length() - 1) == '/') {
@@ -175,7 +175,7 @@ class ServerHandler extends Thread {
       header = getHeaderBase().replace("%code%", "200 OK");
     }
 
-    Log.d("Webserver", "Serving " + document);
+    Log.d("WebServer", "Serving " + document);
 
     try {
       File f = new File(document);
@@ -216,7 +216,7 @@ class ServerHandler extends Thread {
 
   private String getHeaderBase() {
     return "HTTP/1.1 %code%\n" +
-        "Server: AndroidWebserver/1.0\n" +
+        "Server: AndroidWebServer/1.0\n" +
         "Content-Length: %length%\n" +
         "Connection: close\n" +
         "Content-Type: text/html; charset=iso-8859-1\n\n";
