@@ -35,21 +35,21 @@ public class MainScreen extends CustomBaseScreen {
     );
 
     CustomTextButton connectVpn = new CustomTextButton(
-        "CONNECT VPN", 25, MyGdxGame.getInstance().getFullHeight() - 75, 150, 50,
+        "START SERVER", 25, MyGdxGame.getInstance().getFullHeight() - 75, 150, 50,
         new ClickListener() {
           @Override
           public void clicked(InputEvent event, float x, float y) {
-            // MyGdxGame.getInstance().getVpnListener().connectVpn();
+            MyGdxGame.getInstance().getServerListener().startServer(8080);
           }
         }
     );
 
     CustomTextButton disconnectVpn = new CustomTextButton(
-        "DISCONNECT VPN", 25, MyGdxGame.getInstance().getFullHeight() - 150, 150, 50,
+        "STOP SERVER", 25, MyGdxGame.getInstance().getFullHeight() - 150, 150, 50,
         new ClickListener() {
           @Override
           public void clicked(InputEvent event, float x, float y) {
-            // MyGdxGame.getInstance().getVpnListener().disconnectVpn();
+            MyGdxGame.getInstance().getServerListener().stopServer();
           }
         }
     );

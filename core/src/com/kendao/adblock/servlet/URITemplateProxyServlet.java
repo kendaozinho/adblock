@@ -50,7 +50,7 @@ public class URITemplateProxyServlet extends ProxyServlet {
   protected void initTarget() throws ServletException {
     targetUriTemplate = getConfigParam(P_TARGET_URI);
     if (targetUriTemplate == null)
-      throw new ServletException(P_TARGET_URI+" is required.");
+      throw new ServletException(P_TARGET_URI + " is required.");
 
     //leave this.target* null to prevent accidental mis-use
   }
@@ -96,7 +96,7 @@ public class URITemplateProxyServlet extends ProxyServlet {
       String arg = matcher.group(1);
       String replacement = params.remove(arg);//note we remove
       if (replacement == null) {
-        throw new ServletException("Missing HTTP parameter "+arg+" to fill the template");
+        throw new ServletException("Missing HTTP parameter " + arg + " to fill the template");
       }
       matcher.appendReplacement(urlBuf, replacement);
     }
@@ -107,7 +107,7 @@ public class URITemplateProxyServlet extends ProxyServlet {
     try {
       targetUriObj = new URI(newTargetUri);
     } catch (Exception e) {
-      throw new ServletException("Rewritten targetUri is invalid: " + newTargetUri,e);
+      throw new ServletException("Rewritten targetUri is invalid: " + newTargetUri, e);
     }
     servletRequest.setAttribute(ATTR_TARGET_HOST, URIUtils.extractHost(targetUriObj));
 
@@ -118,7 +118,7 @@ public class URITemplateProxyServlet extends ProxyServlet {
         newQueryBuf.append('&');
       newQueryBuf.append(nameVal.getKey()).append('=');
       if (nameVal.getValue() != null)
-        newQueryBuf.append( URLEncoder.encode(nameVal.getValue(), "UTF-8"));
+        newQueryBuf.append(URLEncoder.encode(nameVal.getValue(), "UTF-8"));
     }
     servletRequest.setAttribute(ATTR_QUERY_STRING, newQueryBuf.toString());
 

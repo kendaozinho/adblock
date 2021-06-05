@@ -3,6 +3,7 @@ package com.kendao.adblock;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.kendao.adblock.listener.ServerListener;
 import com.kendao.adblock.screen.splash.SplashScreen;
 import com.kendao.libgdx.assets.CustomAssetManager;
 import com.kendao.libgdx.listener.CustomGameListener;
@@ -14,8 +15,10 @@ import java.util.HashMap;
 
 public class MyGdxGame extends ApplicationAdapter implements CustomGameListener {
   private final HashMap<Class, Object> instances = new HashMap(); // for Dependency Injection
+  private final ServerListener serverListener;
 
-  public MyGdxGame() {
+  public MyGdxGame(ServerListener serverListener) {
+    this.serverListener = serverListener;
   }
 
   public static MyGdxGame getInstance() {
@@ -90,5 +93,9 @@ public class MyGdxGame extends ApplicationAdapter implements CustomGameListener 
   public <T> T getInstanceOf(Class<T> clazz) {
     Object instance = this.instances.get(clazz);
     return (instance == null ? null : (T) instance);
+  }
+
+  public ServerListener getServerListener() {
+    return this.serverListener;
   }
 }
