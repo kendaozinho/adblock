@@ -1,75 +1,74 @@
 package com.kendao.adblock.screen.main;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kendao.adblock.MyGdxGame;
-import com.kendao.adblock.enumerable.Assets;
-import com.kendao.libgdx.scenes.scene2d.ui.CustomImageButton;
+import com.kendao.libgdx.scenes.scene2d.ui.CustomLabel;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomTextButton;
-import com.kendao.libgdx.scenes.scene2d.ui.CustomToast;
 import com.kendao.libgdx.screen.base.CustomBaseScreen;
 
 public class MainScreen extends CustomBaseScreen {
-  private CustomImageButton image;
+  private CustomLabel label;
 
   public MainScreen() {
   }
 
   @Override
   protected void load() {
-    this.image = new CustomImageButton(
-        Assets.BAD_LOGIC.getValueAsTexture(),
+    this.label = new CustomLabel("SERVER IS\nOFFLINE!") {{
+      super.setPosition(
+          (MyGdxGame.getInstance().getFullWidth() / 2) - (super.getWidth() / 2),
+          MyGdxGame.getInstance().getFullHeight() - super.getHeight() - 50
+      );
+      super.setColor(Color.SCARLET);
+    }};
+
+    CustomTextButton button = new CustomTextButton(
+        "START",
+        (MyGdxGame.getInstance().getFullWidth() / 2) - 100,
+        new Integer((int) (MyGdxGame.getInstance().getFullHeight() - 50 - this.label.getHeight() - 50 - 50)),
+        200, 50,
         new ClickListener() {
           @Override
           public void clicked(InputEvent event, float x, float y) {
-            CustomToast.alert("HELLO WORLD!");
+            if (label.getColor().equals(Color.SCARLET)) {
+              if (MyGdxGame.getInstance().getServerListener() != null) {
+                MyGdxGame.getInstance().getServerListener().startServer(8080);
+              }
+
+              label.setText("SERVER IS\nONLINE!");
+              label.setPosition(
+                  (MyGdxGame.getInstance().getFullWidth() / 2) - (label.getWidth() / 2),
+                  MyGdxGame.getInstance().getFullHeight() - label.getHeight() - 50
+              );
+              label.setColor(Color.LIME);
+
+              ((CustomTextButton) event.getListenerActor()).setText("STOP");
+            } else if (label.getColor().equals(Color.LIME)) {
+              if (MyGdxGame.getInstance().getServerListener() != null) {
+                MyGdxGame.getInstance().getServerListener().stopServer();
+              }
+
+              label.setText("SERVER IS\nOFFLINE!");
+              label.setPosition(
+                  (MyGdxGame.getInstance().getFullWidth() / 2) - (label.getWidth() / 2),
+                  MyGdxGame.getInstance().getFullHeight() - label.getHeight() - 50
+              );
+              label.setColor(Color.SCARLET);
+
+              ((CustomTextButton) event.getListenerActor()).setText("START");
+            }
           }
         }
     );
 
-    this.image.setPosition(
-        (MyGdxGame.getInstance().getFullWidth() / 2) - (this.image.getWidth() / 2),
-        (MyGdxGame.getInstance().getFullHeight() / 2) - (this.image.getHeight() / 2)
-    );
-
-    CustomTextButton connectVpn = new CustomTextButton(
-        "START SERVER", 25, MyGdxGame.getInstance().getFullHeight() - 75, 150, 50,
-        new ClickListener() {
-          @Override
-          public void clicked(InputEvent event, float x, float y) {
-            MyGdxGame.getInstance().getServerListener().startServer(8080);
-          }
-        }
-    );
-
-    CustomTextButton disconnectVpn = new CustomTextButton(
-        "STOP SERVER", 25, MyGdxGame.getInstance().getFullHeight() - 150, 150, 50,
-        new ClickListener() {
-          @Override
-          public void clicked(InputEvent event, float x, float y) {
-            MyGdxGame.getInstance().getServerListener().stopServer();
-          }
-        }
-    );
-
-    super.getMainStage().addActor(this.image);
-    super.getMainStage().addActor(connectVpn);
-    super.getMainStage().addActor(disconnectVpn);
+    super.getMainStage().addActor(this.label);
+    super.getMainStage().addActor(button);
   }
 
   @Override
   public void handleInput() {
-    if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-      this.image.setY(this.image.getY() + 10);
-    } else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-      this.image.setX(this.image.getX() + 10);
-    } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-      this.image.setY(this.image.getY() - 10);
-    } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-      this.image.setX(this.image.getX() - 10);
-    }
   }
 
   @Override
