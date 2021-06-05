@@ -82,9 +82,9 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
 
       File indexFile = new File(documentRoot + "index.html");
       if (!indexFile.exists()) {
-        File temp = File.createTempFile("index", ".html", folder);
+        File newFile = new File(folder, "index.html");
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
         writer.write("<html>");
         writer.write("<head><title>Android WebServer</title></head>");
         writer.write("<body>KENDAO Android WebServer.</body>");
@@ -94,18 +94,18 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
 
       File forbiddenFile = new File(documentRoot + "403.html");
       if (!forbiddenFile.exists()) {
-        File temp = File.createTempFile("403", ".html", folder);
+        File newFile = new File(folder, "403.html");
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
         writer.write("<html><head><title>Error 403</title></head><body>403 - Forbidden</body></html>");
         writer.close();
       }
 
       File notFoundFile = new File(documentRoot + "404.html");
       if (!notFoundFile.exists()) {
-        File temp = File.createTempFile("404", ".html", folder);
+        File newFile = new File(folder, "404.html");
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
         writer.write("<html><head><title>Error 404</title></head><body>404 - Not Found</body></html>");
         writer.close();
       }

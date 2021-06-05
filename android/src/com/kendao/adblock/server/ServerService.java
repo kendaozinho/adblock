@@ -20,7 +20,6 @@
 
 package com.kendao.adblock.server;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -52,7 +51,7 @@ public class ServerService extends Service {
       String ipAddress = intToIp(wifiInfo.getIpAddress());
 
       if (wifiInfo.getSupplicantState() != SupplicantState.COMPLETED) {
-        new AlertDialog.Builder(this).setTitle("Error").setMessage("Please connect to a WIFI-network for starting the webserver.").setPositiveButton("OK", null).show();
+        System.err.println("Please connect to a WIFI-network for starting the webserver.");
         throw new Exception("Please connect to a WIFI-network.");
       }
 
