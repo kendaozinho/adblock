@@ -39,7 +39,7 @@ public class MainScreen extends CustomBaseScreen {
         new ClickListener() {
           @Override
           public void clicked(InputEvent event, float x, float y) {
-            MyGdxGame.getInstance().getVpnListener().connectVpn();
+            // MyGdxGame.getInstance().getVpnListener().connectVpn();
           }
         }
     );
@@ -49,7 +49,7 @@ public class MainScreen extends CustomBaseScreen {
         new ClickListener() {
           @Override
           public void clicked(InputEvent event, float x, float y) {
-            MyGdxGame.getInstance().getVpnListener().disconnectVpn();
+            // MyGdxGame.getInstance().getVpnListener().disconnectVpn();
           }
         }
     );

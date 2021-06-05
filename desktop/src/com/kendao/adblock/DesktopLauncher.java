@@ -9,6 +9,6 @@ public class DesktopLauncher {
     config.title = "AdBlock";
     config.width = 480;
     config.height = 800;
-    new LwjglApplication(new MyGdxGame(null), config);
+    new LwjglApplication(new MyGdxGame(), config);
   }
 }
