@@ -20,7 +20,9 @@
 
 package com.kendao.adblock.server;
 
-import android.app.*;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
@@ -28,15 +30,9 @@ import android.net.wifi.WifiManager;
 import android.os.*;
 import android.util.Log;
 import com.kendao.adblock.AndroidLauncher;
-import com.kendao.adblock.R;
 
 public class ServerService extends Service {
-
   private final IBinder mBinder = new LocalBinder();
-  private int NOTIFICATION_ID = 4711;
-  private NotificationManager mNM;
-  private String message;
-  private Notification notification;
   private Server server;
   private boolean isRunning = false;
 
@@ -45,17 +41,6 @@ public class ServerService extends Service {
         ((i >> 8) & 0xFF) + "." +
         ((i >> 16) & 0xFF) + "." +
         (i >> 24 & 0xFF);
-  }
-
-  @Override
-  public void onCreate() {
-    mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    showNotification();
-  }
-
-  private void showNotification() {
-    updateNotification("");
-    startForeground(NOTIFICATION_ID, notification);
   }
 
   public void startServer(Handler handler, String documentRoot, int port) {
@@ -77,18 +62,18 @@ public class ServerService extends Service {
       Intent i = new Intent(this, AndroidLauncher.class);
       PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, 0);
 
-      updateNotification("Webserver is running on port " + ipAddress + ":" + port);
+      System.out.println("WebServer is running on port " + ipAddress + ":" + port);
 
       Message msg = new Message();
       Bundle b = new Bundle();
-      b.putString("msg", "Webserver is running on port " + ipAddress + ":" + port);
+      b.putString("msg", "WebServer is running on port " + ipAddress + ":" + port);
       msg.setData(b);
       handler.sendMessage(msg);
 
     } catch (Exception e) {
       isRunning = false;
-      Log.e("Webserver", e.getMessage());
-      updateNotification("Error: " + e.getMessage());
+      Log.e("WebServer", e.toString());
+      System.err.println("WebServer Error: " + e.getMessage());
     }
   }
 
@@ -98,25 +83,6 @@ public class ServerService extends Service {
       server.interrupt();
       isRunning = false;
     }
-  }
-
-  public void updateNotification(String message) {
-    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, AndroidLauncher.class), 0);
-
-    /* if (notification == null) {
-      notification = new Notification(R.drawable.ic_launcher, message, System.currentTimeMillis());
-    }
-    notification.setLatestEventInfo(this, getString(R.string.app_name), message, contentIntent); */
-
-    notification = new Notification
-        .Builder(this)
-        .setSmallIcon(R.drawable.ic_launcher)
-        .setContentTitle(getString(R.string.app_name))
-        .setContentText(message)
-        .setContentIntent(contentIntent)
-        .build();
-
-    mNM.notify(NOTIFICATION_ID, notification);
   }
 
   @Override

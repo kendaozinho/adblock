@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.*;
 import android.util.Log;
-import android.widget.Toast;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.kendao.adblock.listener.ServerListener;
@@ -33,22 +32,24 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
   // private static ScrollView mScroll;
 
   private String documentRoot;
-  private String lastMessage = "";
 
   private ServerService mBoundService;
 
-  private ServiceConnection mConnection = new ServiceConnection() {
+  private final ServiceConnection mConnection = new ServiceConnection() {
     public void onServiceConnected(ComponentName className, IBinder service) {
       mBoundService = ((ServerService.LocalBinder) service).getService();
-      Toast.makeText(AndroidLauncher.this, "Service connected", Toast.LENGTH_SHORT).show();
-      mBoundService.updateNotification(lastMessage);
+
+      // Toast.makeText(AndroidLauncher.this, "Service connected", Toast.LENGTH_SHORT).show();
+      System.out.println("SERVICE CONNECTED!");
 
       // mToggleButton.setChecked(mBoundService.isRunning());
     }
 
     public void onServiceDisconnected(ComponentName className) {
       mBoundService = null;
-      Toast.makeText(AndroidLauncher.this, "Service disconnected", Toast.LENGTH_SHORT).show();
+
+      // Toast.makeText(AndroidLauncher.this, "Service disconnected", Toast.LENGTH_SHORT).show();
+      System.out.println("SERVICE DISCONNECTED!");
     }
   };
 
@@ -68,7 +69,7 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
     // mLog = (TextView) findViewById(R.id.log);
     // mScroll = (ScrollView) findViewById(R.id.ScrollView01);
 
-    documentRoot = getDocRoot();
+    documentRoot = Environment.getExternalStorageDirectory().getAbsolutePath() + "/androidwebserver/";
 
     if (documentRoot != null) {
       try {
@@ -76,7 +77,7 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
           (new File(documentRoot)).mkdir();
           Log.d("Webserver", "Created " + documentRoot);
           BufferedWriter bout = new BufferedWriter(new FileWriter(documentRoot + "index.html"));
-          bout.write("<html><head><title>Android Webserver</title>");
+          bout.write("<html><head><title>Android WebServer</title>");
           bout.write("</head>");
           bout.write("<body>Willkommen auf dem Android Webserver.");
           bout.write("<br><br>Die HTML-Dateien liegen in " + documentRoot + ", der Sourcecode dieser App auf ");
@@ -120,7 +121,7 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
       }
     }); */
 
-    doBindService();
+    super.bindService(new Intent(AndroidLauncher.this, ServerService.class), mConnection, Context.BIND_AUTO_CREATE);
 
     super.initialize(new MyGdxGame(this), new AndroidApplicationConfiguration());
   }
@@ -128,16 +129,18 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
   @Override
   public void startServer(int port) {
     if (mBoundService == null) {
-      Toast.makeText(AndroidLauncher.this, "Service not connected", Toast.LENGTH_SHORT).show();
+      // Toast.makeText(AndroidLauncher.this, "Service not connected", Toast.LENGTH_SHORT).show();
+      System.out.println("SERVICE NOT CONNECTED!");
     } else {
-      mBoundService.startServer(handler, documentRoot, port);
+      mBoundService.startServer(mHandler, documentRoot, port);
     }
   }
 
   @Override
   public void stopServer() {
     if (mBoundService == null) {
-      Toast.makeText(AndroidLauncher.this, "Service not connected", Toast.LENGTH_SHORT).show();
+      // Toast.makeText(AndroidLauncher.this, "Service not connected", Toast.LENGTH_SHORT).show();
+      System.out.println("SERVICE NOT CONNECTED!");
     } else {
       mBoundService.stopServer();
     }
@@ -149,24 +152,14 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
     }
   }
 
-  private void doBindService() {
-    bindService(new Intent(AndroidLauncher.this, ServerService.class), mConnection, Context.BIND_AUTO_CREATE);
-  }
-
-
   @Override
   protected void onDestroy() {
     super.onDestroy();
     doUnbindService();
   }
 
-
   @Override
   protected void onResume() {
     super.onResume();
-  }
-
-  private String getDocRoot() {
-    return Environment.getExternalStorageDirectory().getAbsolutePath() + "/androidwebserver/";
   }
 }
