@@ -1,17 +1,17 @@
 package com.kendao.adblock.server;
 
-//Version 1.3.3
+// Version 1.3.3
 
-//Changelog
+// Changelog
 
-//Version 1.3.3
-//- increased MAX_NO_ARGS to 10
+// Version 1.3.3
+//   - increased MAX_NO_ARGS to 10
 
-//Version 1.3.2
-//	- bug setting app arg
+// Version 1.3.2
+// 	- bug setting app arg
 //	- pulled provider column names out of function
 
-//For usage examples see http://tasker.dinglisch.net/invoketasks.html
+// For usage examples see http://tasker.dinglisch.net/invoketasks.html
 
 import android.content.Context;
 import android.content.Intent;
@@ -72,6 +72,7 @@ public class TaskerIntent extends Intent {
   public final static String ICON_ARG_PREFIX = "icn:";
   public final static String ARG_INDEX_PREFIX = "arg:";
   public static final String PARAM_VAR_NAME_PREFIX = "par";
+  public final static String ACTION_OPEN_PREFS = TASKER_PACKAGE + ".ACTION_OPEN_PREFS";
   public final static String EXTRA_OPEN_PREFS_TAB_NO = "tno";
   private final static String TASKER_MARKET_URL = MARKET_DOWNLOAD_URL_PREFIX + TASKER_PACKAGE_MARKET;
   private final static String TASKER_MARKET_URL_CUPCAKE = MARKET_DOWNLOAD_URL_PREFIX + TASKER_PACKAGE_CUPCAKE;
@@ -79,7 +80,6 @@ public class TaskerIntent extends Intent {
   private final static String TASKER_DOWNLOAD_URL = "http://tasker.dinglisch.net/download.html";
   // Misc
   private final static String PERMISSION_RUN_TASKS = TASKER_PACKAGE + ".PERMISSION_RUN_TASKS";
-  private final static String ACTION_OPEN_PREFS = TASKER_PACKAGE + ".ACTION_OPEN_PREFS";
   private final static int MISC_PREFS_TAB_NO = 3;  // 0 based
 
   // To query whether Tasker is enabled and external access is enabled
@@ -111,7 +111,6 @@ public class TaskerIntent extends Intent {
   // Tracking state
   private int actionCount = 0;
   private int argCount;
-
   public TaskerIntent() {
     super(ACTION_TASK);
     setRandomData();
@@ -369,7 +368,7 @@ public class TaskerIntent extends Intent {
       StringBuilder builder = new StringBuilder();
       builder.append(APP_ARG_PREFIX).
           append(pkg).append(",").append(cls);
-      b.putString(ARG_INDEX_PREFIX + Integer.toString(argCount++), b.toString());
+      b.putString(ARG_INDEX_PREFIX + Integer.toString(argCount++), builder.toString()); // CHANGED: b.toString()
     }
 
     return this;
