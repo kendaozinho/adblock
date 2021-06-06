@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.kendao.adblock.MyGdxGame;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomLabel;
 import com.kendao.libgdx.scenes.scene2d.ui.CustomTextArea;
@@ -16,11 +17,12 @@ public class MainScreen extends CustomBaseScreen {
 
   @Override
   protected void load() {
-    CustomLabel label = new CustomLabel("SERVER IS\nOFFLINE!") {{
+    CustomLabel label = new CustomLabel("SERVER IS\nOFFLINE!", CustomLabel.Sizes.EXTRA_SMALL) {{
       super.setPosition(
           (MyGdxGame.getInstance().getFullWidth() / 2) - (super.getWidth() / 2),
           MyGdxGame.getInstance().getFullHeight() - super.getHeight() - 50
       );
+      super.setAlignment(Align.center);
       super.setColor(Color.SCARLET);
     }};
 
@@ -49,6 +51,7 @@ public class MainScreen extends CustomBaseScreen {
                     (MyGdxGame.getInstance().getFullWidth() / 2) - (label.getWidth() / 2),
                     MyGdxGame.getInstance().getFullHeight() - label.getHeight() - 50
                 );
+                label.setAlignment(Align.center);
                 label.setColor(Color.LIME);
 
                 ((CustomTextButton) event.getListenerActor()).setText("STOP");
@@ -62,6 +65,7 @@ public class MainScreen extends CustomBaseScreen {
                     (MyGdxGame.getInstance().getFullWidth() / 2) - (label.getWidth() / 2),
                     MyGdxGame.getInstance().getFullHeight() - label.getHeight() - 50
                 );
+                label.setAlignment(Align.center);
                 label.setColor(Color.SCARLET);
 
                 ((CustomTextButton) event.getListenerActor()).setText("START");
@@ -72,6 +76,7 @@ public class MainScreen extends CustomBaseScreen {
                   (MyGdxGame.getInstance().getFullWidth() / 2) - (label.getWidth() / 2),
                   MyGdxGame.getInstance().getFullHeight() - label.getHeight() - 50
               );
+              label.setAlignment(Align.center);
             }
           }
         }
