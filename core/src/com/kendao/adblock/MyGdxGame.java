@@ -81,12 +81,12 @@ public class MyGdxGame extends ApplicationAdapter implements CustomGameListener 
 
   @Override
   public Integer getFullWidth() {
-    return 480;
+    return 720;
   }
 
   @Override
   public Integer getFullHeight() {
-    return 800;
+    return 1280;
   }
 
   @Override

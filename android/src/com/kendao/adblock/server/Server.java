@@ -47,13 +47,15 @@ public class Server extends Thread {
     this.mHandler = handler;
   }
 
-  public void send(String s) {
-    if (s != null) {
+  public void writeLog(String text) {
+    System.out.println(text);
+
+    if (this.mHandler != null && text != null && !text.trim().isEmpty()) {
       Message msg = new Message();
       Bundle b = new Bundle();
-      b.putString("msg", s);
+      b.putString("msg", text);
       msg.setData(b);
-      mHandler.sendMessage(msg);
+      this.mHandler.sendMessage(msg);
     }
   }
 

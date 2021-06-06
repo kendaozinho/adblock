@@ -59,7 +59,7 @@ class ServerHandler extends Thread {
           break;
         }
 
-        this.server.send(s);
+        this.server.writeLog(s);
 
         if (s.substring(0, 3).equals("GET")) {
           int leerstelle = s.indexOf(" HTTP/");

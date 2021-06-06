@@ -55,7 +55,7 @@ public class ServerService extends Service {
 
       this.handler = handler;
 
-      this.sendMessage("WebServer is running on " + ipAddress + ":" + port);
+      this.writeLog("WebServer is running on " + ipAddress + ":" + port);
     } catch (Throwable t) {
       System.err.println("Unable to start WebServer -> " + t.toString());
       throw new RuntimeException("Unable to start WebServer" + "\n" + t.getClass().getName() + "\n" + t.getMessage());
@@ -66,6 +66,8 @@ public class ServerService extends Service {
     if (this.server != null) {
       this.server.stopServer();
       this.server.interrupt();
+
+      this.writeLog("WebServer is stopped!");
     }
   }
 
@@ -74,10 +76,10 @@ public class ServerService extends Service {
     return this.binder;
   }
 
-  private void sendMessage(String text) {
+  private void writeLog(String text) {
     System.out.println(text);
 
-    if (this.handler != null) {
+    if (this.handler != null && text != null && !text.trim().isEmpty()) {
       Message msg = new Message();
       Bundle b = new Bundle();
       b.putString("msg", text);

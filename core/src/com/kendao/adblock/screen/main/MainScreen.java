@@ -17,7 +17,7 @@ public class MainScreen extends CustomBaseScreen {
 
   @Override
   protected void load() {
-    CustomLabel label = new CustomLabel("SERVER IS\nOFFLINE!", CustomLabel.Sizes.EXTRA_SMALL) {{
+    CustomLabel label = new CustomLabel("SERVER IS\nOFFLINE!") {{
       super.setPosition(
           (MyGdxGame.getInstance().getFullWidth() / 2) - (super.getWidth() / 2),
           MyGdxGame.getInstance().getFullHeight() - super.getHeight() - 50
