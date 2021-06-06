@@ -30,31 +30,24 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
 
 public class Server extends Thread {
-  private LinkedList<Socket> clientList = new LinkedList<>();
-  private Handler mHandler;
   private ServerSocket listener;
   private boolean running = true;
   private String documentRoot;
   private Context context;
+  private Handler mHandler;
 
   public Server(Handler handler, String documentRoot, String ip, int port, Context context) throws IOException {
     super();
     this.documentRoot = documentRoot;
     this.context = context;
-    this.mHandler = handler;
     InetAddress inetAddress = InetAddress.getByName(ip);
     listener = new ServerSocket(port, 0, inetAddress);
+    this.mHandler = handler;
   }
 
-  public synchronized void remove(Socket s) {
-    send("Closing connection: " + s.getInetAddress().toString());
-    clientList.remove(s);
-  }
-
-  private void send(String s) {
+  public void send(String s) {
     if (s != null) {
       Message msg = new Message();
       Bundle b = new Bundle();
@@ -68,14 +61,13 @@ public class Server extends Thread {
   public void run() {
     while (running) {
       try {
-        send("Waiting for connections");
+        // send("Waiting for connections");
         Socket client = listener.accept();
 
-        send("New connection from " + client.getInetAddress().toString());
+        // send("New connection from " + client.getInetAddress().toString());
         new ServerHandler(documentRoot, context, client, this).start();
-        clientList.add(client);
       } catch (IOException e) {
-        send(e.getMessage());
+        // send(e.getMessage());
         Log.e("WebServer", e.getMessage());
       }
     }
@@ -86,7 +78,7 @@ public class Server extends Thread {
     try {
       listener.close();
     } catch (IOException e) {
-      send(e.getMessage());
+      // send(e.getMessage());
       Log.e("WebServer", e.getMessage());
     }
   }

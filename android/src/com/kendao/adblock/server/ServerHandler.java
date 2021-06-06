@@ -46,7 +46,7 @@ class ServerHandler extends Thread {
   }
 
   public void run() {
-    String dokument = "";
+    String document = "";
 
     try {
       in = new BufferedReader(new InputStreamReader(toClient.getInputStream()));
@@ -59,14 +59,16 @@ class ServerHandler extends Thread {
           break;
         }
 
+        this.server.send(s);
+
         if (s.substring(0, 3).equals("GET")) {
           int leerstelle = s.indexOf(" HTTP/");
-          dokument = s.substring(5, leerstelle);
-          dokument = dokument.replaceAll("[/]+", "/");
+          document = s.substring(5, leerstelle);
+          document = document.replaceAll("[/]+", "/");
         }
       }
     } catch (Exception e) {
-      server.remove(toClient);
+      // server.remove(toClient);
       try {
         toClient.close();
       } catch (Exception ex) {
@@ -74,21 +76,21 @@ class ServerHandler extends Thread {
     }
 
     Pattern taskerPattern = Pattern.compile("tasker/(.+)");
-    Matcher taskerMatcher = taskerPattern.matcher(dokument);
+    Matcher taskerMatcher = taskerPattern.matcher(document);
 
     if (taskerMatcher.matches()) {
       try {
-        dokument = java.net.URLDecoder.decode(taskerMatcher.group(1), "UTF-8");
-        sendTasker(dokument);
+        document = java.net.URLDecoder.decode(taskerMatcher.group(1), "UTF-8");
+        sendTasker(document);
       } catch (UnsupportedEncodingException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
         showHtml("403.html");
       }
-    } else if (dokument.equals("tasker/")) {
+    } else if (document.equals("tasker/")) {
       listTaskerTasks();
     } else {
-      showHtml(dokument);
+      showHtml(document);
     }
   }
 
@@ -133,7 +135,7 @@ class ServerHandler extends Thread {
       out.print(header);
       out.print(text);
       out.flush();
-      server.remove(toClient);
+      // server.remove(toClient);
       toClient.close();
     } catch (Exception e) {
 
@@ -209,7 +211,7 @@ class ServerHandler extends Thread {
         out.flush();
       }
 
-      server.remove(toClient);
+      // server.remove(toClient);
       toClient.close();
     } catch (Exception e) {
 
