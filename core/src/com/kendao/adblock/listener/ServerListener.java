@@ -1,7 +1,9 @@
 package com.kendao.adblock.listener;
 
 public interface ServerListener {
-  void startServer(int port);
+  void startServer(int port) throws Throwable;
 
-  void stopServer();
+  void stopServer() throws Throwable;
+
+  String getServerLog();
 }

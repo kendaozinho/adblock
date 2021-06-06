@@ -1,6 +1,5 @@
 package com.kendao.adblock;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,16 +15,18 @@ import com.kendao.adblock.server.ServerService;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.nio.file.Files;
 
 public class AndroidLauncher extends AndroidApplication implements ServerListener {
+  private String logMessage = "";
+
   @SuppressLint("HandlerLeak")
   final Handler mHandler = new Handler() {
     @Override
     public void handleMessage(Message msg) {
       Bundle b = msg.getData();
       log(b.getString("msg"));
+
+      logMessage += b.getString("msg") + "\n";
     }
   };
 
@@ -133,23 +134,19 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
   }
 
   @Override
-  public void startServer(int port) {
+  public void startServer(int port) throws Throwable {
     if (mBoundService == null) {
-      // Toast.makeText(AndroidLauncher.this, "Service not connected", Toast.LENGTH_SHORT).show();
-      System.out.println("SERVICE NOT CONNECTED!");
-    } else {
-      mBoundService.startServer(mHandler, getDocumentRoot(), port);
+      throw new RuntimeException("SERVICE NOT CONNECTED!");
     }
+    mBoundService.startServer(mHandler, getDocumentRoot(), port);
   }
 
   @Override
-  public void stopServer() {
+  public void stopServer() throws Throwable {
     if (mBoundService == null) {
-      // Toast.makeText(AndroidLauncher.this, "Service not connected", Toast.LENGTH_SHORT).show();
-      System.out.println("SERVICE NOT CONNECTED!");
-    } else {
-      mBoundService.stopServer();
+      throw new RuntimeException("SERVICE NOT CONNECTED!");
     }
+    mBoundService.stopServer();
   }
 
   private void doUnbindService() {
@@ -171,5 +168,12 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
 
   private String getDocumentRoot() {
     return Environment.getExternalStorageDirectory().getAbsolutePath() + "/webserver/";
+  }
+
+  @Override
+  public String getServerLog() {
+    String response = this.logMessage;
+    this.logMessage = "";
+    return response;
   }
 }
