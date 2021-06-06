@@ -24,7 +24,7 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
     @Override
     public void handleMessage(Message msg) {
       Bundle b = msg.getData();
-      log(b.getString("msg"));
+      System.out.println("LOG: " + b.getString("msg"));
 
       logMessage += b.getString("msg") + "\n";
     }
@@ -54,13 +54,6 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
       System.out.println("SERVICE DISCONNECTED!");
     }
   };
-
-  public static void log(String s) {
-    // mLog.append(s + "\n");
-    // mScroll.fullScroll(ScrollView.FOCUS_DOWN);
-
-    System.out.println("LOG: " + s);
-  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +109,7 @@ public class AndroidLauncher extends AndroidApplication implements ServerListene
       Log.v("WebServer", e.toString());
     }
 
-    log("Document-Root: " + documentRoot);
+    System.out.println("WebServer folder: " + documentRoot);
 
     /* mToggleButton.setOnClickListener(new OnClickListener() {
       public void onClick(View arg0) {

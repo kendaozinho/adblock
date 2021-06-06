@@ -32,7 +32,7 @@ public class ServerService extends Service {
   private Server server;
   private Handler handler;
 
-  public static String intToIp(int i) {
+  private String intToIp(int i) {
     return ((i) & 0xFF) + "." +
         ((i >> 8) & 0xFF) + "." +
         ((i >> 16) & 0xFF) + "." +

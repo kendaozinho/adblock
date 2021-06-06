@@ -36,11 +36,13 @@ class ServerHandler extends Thread {
   private Socket toClient;
   private String documentRoot;
   private Context context;
+  private Server server;
 
-  public ServerHandler(String d, Context c, Socket s) {
+  public ServerHandler(String d, Context c, Socket s, Server server) {
     toClient = s;
     documentRoot = d;
     context = c;
+    this.server = server;
   }
 
   public void run() {
@@ -64,7 +66,7 @@ class ServerHandler extends Thread {
         }
       }
     } catch (Exception e) {
-      Server.remove(toClient);
+      server.remove(toClient);
       try {
         toClient.close();
       } catch (Exception ex) {
@@ -131,7 +133,7 @@ class ServerHandler extends Thread {
       out.print(header);
       out.print(text);
       out.flush();
-      Server.remove(toClient);
+      server.remove(toClient);
       toClient.close();
     } catch (Exception e) {
 
@@ -207,7 +209,7 @@ class ServerHandler extends Thread {
         out.flush();
       }
 
-      Server.remove(toClient);
+      server.remove(toClient);
       toClient.close();
     } catch (Exception e) {
 

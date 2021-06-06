@@ -33,9 +33,9 @@ import java.net.Socket;
 import java.util.LinkedList;
 
 public class Server extends Thread {
-  public static LinkedList<Socket> clientList = new LinkedList<Socket>();
-  private static Handler mHandler;
-  private ServerSocket listener = null;
+  private LinkedList<Socket> clientList = new LinkedList<>();
+  private Handler mHandler;
+  private ServerSocket listener;
   private boolean running = true;
   private String documentRoot;
   private Context context;
@@ -44,17 +44,17 @@ public class Server extends Thread {
     super();
     this.documentRoot = documentRoot;
     this.context = context;
-    Server.mHandler = handler;
-    InetAddress ipadr = InetAddress.getByName(ip);
-    listener = new ServerSocket(port, 0, ipadr);
+    this.mHandler = handler;
+    InetAddress inetAddress = InetAddress.getByName(ip);
+    listener = new ServerSocket(port, 0, inetAddress);
   }
 
-  public synchronized static void remove(Socket s) {
+  public synchronized void remove(Socket s) {
     send("Closing connection: " + s.getInetAddress().toString());
     clientList.remove(s);
   }
 
-  private static void send(String s) {
+  private void send(String s) {
     if (s != null) {
       Message msg = new Message();
       Bundle b = new Bundle();
@@ -72,7 +72,7 @@ public class Server extends Thread {
         Socket client = listener.accept();
 
         send("New connection from " + client.getInetAddress().toString());
-        new ServerHandler(documentRoot, context, client).start();
+        new ServerHandler(documentRoot, context, client, this).start();
         clientList.add(client);
       } catch (IOException e) {
         send(e.getMessage());
@@ -90,5 +90,4 @@ public class Server extends Thread {
       Log.e("WebServer", e.getMessage());
     }
   }
-
 }
