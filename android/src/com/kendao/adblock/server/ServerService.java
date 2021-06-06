@@ -28,9 +28,9 @@ import android.net.wifi.WifiManager;
 import android.os.*;
 
 public class ServerService extends Service {
-  private final IBinder mBinder = new LocalBinder();
+  private final IBinder binder = new LocalBinder();
   private Server server;
-  private Handler mHandler;
+  private Handler handler;
 
   public static String intToIp(int i) {
     return ((i) & 0xFF) + "." +
@@ -47,21 +47,18 @@ public class ServerService extends Service {
       String ipAddress = intToIp(wifiInfo.getIpAddress());
 
       if (wifiInfo.getSupplicantState() != SupplicantState.COMPLETED) {
-        throw new RuntimeException("Please connect to a Wifi.");
+        throw new RuntimeException("Please connect to a Wifi");
       }
 
       this.server = new Server(handler, documentRoot, ipAddress, port, getApplicationContext());
       this.server.start();
 
-      this.mHandler = handler;
-
-      // Intent i = new Intent(this, AndroidLauncher.class);
-      // PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, 0);
+      this.handler = handler;
 
       this.sendMessage("WebServer is running on " + ipAddress + ":" + port);
     } catch (Throwable t) {
-      System.err.println("Unable to start WebServer: " + t.toString());
-      throw new RuntimeException("Unable to start WebServer:\n" + t.toString());
+      System.err.println("Unable to start WebServer -> " + t.toString());
+      throw new RuntimeException("Unable to start WebServer" + "\n" + t.getClass().getName() + "\n" + t.getMessage());
     }
   }
 
@@ -74,18 +71,18 @@ public class ServerService extends Service {
 
   @Override
   public IBinder onBind(Intent intent) {
-    return mBinder;
+    return this.binder;
   }
 
   private void sendMessage(String text) {
     System.out.println(text);
 
-    if (this.mHandler != null) {
+    if (this.handler != null) {
       Message msg = new Message();
       Bundle b = new Bundle();
       b.putString("msg", text);
       msg.setData(b);
-      this.mHandler.sendMessage(msg);
+      this.handler.sendMessage(msg);
     }
   }
 

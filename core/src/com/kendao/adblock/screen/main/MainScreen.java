@@ -71,7 +71,7 @@ public class MainScreen extends CustomBaseScreen {
                 ((CustomTextButton) event.getListenerActor()).setText("START");
               }
             } catch (Throwable t) {
-              label.setText(t.toString());
+              label.setText(t.getMessage());
               label.setPosition(
                   (MyGdxGame.getInstance().getFullWidth() / 2) - (label.getWidth() / 2),
                   MyGdxGame.getInstance().getFullHeight() - label.getHeight() - 50
